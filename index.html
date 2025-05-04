@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>로그인</h2>
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="username">사용자 이름</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn">로그인</button>
+    </form>
+    <div id="message" style="color: red; text-align: center;"></div>
+</div>
+
+<script>
+    // JSON 파일을 가져와서 사용자 인증을 처리하는 함수
+    async function authenticateUser(username, password) {
+        const response = await fetch('userpass.json');
+        const data = await response.json();
+
+        const user = data.users.find(user => user.username === username && user.password === password);
+        return user !== undefined;
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        const isAuthenticated = await authenticateUser(username, password);
+
+        if (isAuthenticated) {
+            alert('로그인 성공');
+            // 추가적인 로그인 후 동작 (예: 대시보드로 리디렉션 등)
+            // 로그인 성공 시 student.html로 리디렉션
+            window.location.href = 'student.html';
+        } else {
+            document.getElementById('message').textContent = '사용자 이름이나 비밀번호가 잘못되었습니다.';
+        }
+    });
+</script>
+
+</body>
+</html>

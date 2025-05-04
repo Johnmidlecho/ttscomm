@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>손들기 시스템</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>손들기 시스템</h1>
+    <div>
+        <input type="text" id="studentName" placeholder="이름 입력">
+        <button onclick="raiseHand()">손 들기</button>
+    </div>
+    <div>
+        <input type="password" id="teacherPassword" placeholder="비밀번호 입력">
+        <button onclick="confirmStudent()">선생님 확인</button>
+    </div>
+    <h2>대기자 명단</h2>
+    <ul id="queue"></ul>
+
+    <script>
+        const socket = io();
+        
+        function raiseHand() {
+            const name = document.getElementById('studentName').value;
+            if (name) {
+                socket.emit('raise_hand', name);
+            }
+        }
+
+        function confirmStudent() {
+            const password = document.getElementById('teacherPassword').value;
+            const name = document.getElementById('studentName').value; // 현재 입력된 이름
+            if (password === '*4269' && name) {
+                socket.emit('confirm_student', name); // 서버에 비밀번호 확인 요청
+                
+                // 비밀번호 필드 비우기
+                document.getElementById('teacherPassword').value = '';
+            } else {
+                alert('비밀번호가 틀리거나 이름이 입력되지 않았습니다.');
+            }
+        }
+
+        socket.on('update_queue', (queue) => {
+            const queueList = document.getElementById('queue');
+            queueList.innerHTML = queue.map(user => `<li>${user.name}</li>`).join('');
+        });
+
+        // 대기자 명단 업데이트 시 해당 사용자를 리스트에서 제거
+        socket.on('remove_student', (name) => {
+            const queueList = document.getElementById('queue');
+            const items = [...queueList.children];
+            items.forEach(item => {
+                if (item.textContent === name) {
+                    queueList.removeChild(item);
+                }
+            });
+        });
+
+        // 서버에서 클라이언트 연결 시 해당 학생의 이름을 가져와 대기자 명단에 추가
+        socket.on('add_student', (name) => {
+            const queueList = document.getElementById('queue');
+            const newItem = document.createElement('li');
+            newItem.textContent = name;
+            queueList.appendChild(newItem);
+        });
+    </script>
+</body>
+</html>

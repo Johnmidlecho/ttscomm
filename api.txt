@@ -1,0 +1,9 @@
+C:\Users\user>flyctl apps create rasaiedhand
+automatically selected personal organization: cho 36
+New app created: rasaiedhand
+
+C:\Users\user>flyctl auth token
+The 'fly auth token' command is deprecated. Use 'fly tokens create' instead.
+fm2_lJPECAAAAAAACLIUxBAc4xtFdRe7qTLpDk8TDF5VwrVodHRwczovL2FwaS5mbHkuaW8vdjGUAJLOABBcHh8Lk7lodHRwczovL2FwaS5mbHkuaW8vYWFhL3YxxDyrfLGpcv/y4i9aJl+jMoC/uNklLIoi4N2pONfEa4bCht0EOO2rS5yA9z6VVzS+v+11/eFVWqftO9MjS6bETiUfIWy84I57o2A5R+0p2CXWq2wYl1mLnYbrNfM4L+lgFEl7read1TzDYWB302K05n+lB0+vOiqvjEIKPBGuIYoRg1KlMbaN8dUqEGjAQMQgrUXmwFcPnuEiUKCILJzKb3qqheK67M1ER/G/ALgGvBk=,fm2_lJPETiUfIWy84I57o2A5R+0p2CXWq2wYl1mLnYbrNfM4L+lgFEl7read1TzDYWB302K05n+lB0+vOiqvjEIKPBGuIYoRg1KlMbaN8dUqEGjAQMQQe8dYa7+8uu8/J+SzYQDr28O5aHR0cHM6Ly9hcGkuZmx5LmlvL2FhYS92MZYEks5oF3MfzmgXdZUXzgAPukkKkc4AD7pJxCBXN7BmE19rfxkg3knwMKQtEEcXRl7aWVTICZamRrSJHg==,fo1_vuem9Yr9_FFIfR6lCNe9jkqGjwWcqH35HhDzohPahcg
+
+C:\Users\user>

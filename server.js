@@ -1,0 +1,47 @@
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
+
+let queue = []; // 대기자 명단
+
+io.on('connection', (socket) => {
+    console.log('A user connected:', socket.id);
+
+    socket.on('raise_hand', (studentName) => {
+        queue.push({ id: socket.id, name: studentName });
+        io.emit('update_queue', queue);
+    });
+
+    socket.on('teacher_confirm', () => {
+        if (queue.length > 0) {
+            queue.shift(); // 가장 오래된 학생 제거
+            io.emit('update_queue', queue);
+        }
+    });
+
+    socket.on('disconnect', () => {
+        queue = queue.filter(user => user.id !== socket.id);
+        io.emit('update_queue', queue);
+    });
+});
+
+app.get('/', (req, res) => {
+  res.send('Hello, Fly.io!');
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
+;
+
+app.get('/teacher', (req, res) => {
+    res.sendFile(__dirname + '/public/teacher.html');
+});
+
+server.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
+});
